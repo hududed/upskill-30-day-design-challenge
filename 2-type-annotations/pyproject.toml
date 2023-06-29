@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "type_annotations"
+version = "0.1.0"
+description = ""
+authors = ["Hud Wahab <hudwahab@gmail.com>"]
+readme = "README.md"
+packages = [{include = "upskill_kiss"}]
+
+[tool.poetry.dependencies]
+python = "^3.11.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "missing-module-docstring",
+]
