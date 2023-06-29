@@ -1,3 +1,6 @@
+import unittest
+
+
 def count_fruits(fruits: list[str]) -> dict[str, int]:
     fruit_counts = {}
     for fruit in fruits:
@@ -8,25 +11,30 @@ def count_fruits(fruits: list[str]) -> dict[str, int]:
     return fruit_counts
 
 
-def main() -> None:
-    assert count_fruits(
-        [
-            "apple",
-            "banana",
-            "apple",
-            "cherry",
-            "banana",
-            "cherry",
-            "apple",
-            "apple",
-            "cherry",
-            "banana",
-            "cherry",
-        ]
-    ) == {"apple": 4, "banana": 3, "cherry": 4}
-    assert count_fruits([]) == {}
-    # add more tests
+class TestCountFruits(unittest.TestCase):
+    def test_count_fruits_default(self):
+        self.assertEqual(
+            count_fruits(
+                [
+                    "apple",
+                    "banana",
+                    "apple",
+                    "cherry",
+                    "banana",
+                    "cherry",
+                    "apple",
+                    "apple",
+                    "cherry",
+                    "banana",
+                    "cherry",
+                ]
+            ),
+            {"apple": 4, "banana": 3, "cherry": 4},
+        )
+
+    def test_count_fruits_empty(self):
+        self.assertEqual(count_fruits([]), {})
 
 
 if __name__ == "__main__":
-    main()
+    unittest.main()
