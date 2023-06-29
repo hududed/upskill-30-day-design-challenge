@@ -2,7 +2,7 @@ import unittest
 
 
 def count_fruits(fruits: list[str]) -> dict[str, int]:
-    fruit_counts = {}
+    fruit_counts: dict[str, int] = {}
     for fruit in fruits:
         if fruit in fruit_counts:
             fruit_counts[fruit] += 1
