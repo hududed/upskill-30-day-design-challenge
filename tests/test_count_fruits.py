@@ -1,4 +1,4 @@
-from after_v1 import count_fruits
+from after_v2 import count_fruits
 
 
 def test_count_fruits_default() -> None:
