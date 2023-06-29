@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "kiss"
+version = "0.1.0"
+description = ""
+authors = ["ArjanCodes <support@arjancodes.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11.4"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "missing-module-docstring",
+]
