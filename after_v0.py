@@ -2,13 +2,15 @@ import unittest
 
 
 def count_fruits(fruits: list[str]) -> dict[str, int]:
-    fruit_counts: dict[str, int] = {}
-    for fruit in fruits:
-        if fruit in fruit_counts:
-            fruit_counts[fruit] += 1
-        else:
-            fruit_counts[fruit] = 1
-    return fruit_counts
+    fruits_dict: dict[str, int] = {}
+    for i in range(len(fruits)):
+        if fruits[i] not in fruits_dict:
+            count = 0
+            for j in range(i, len(fruits)):
+                if fruits[j] == fruits[i]:
+                    count += 1
+            fruits_dict[fruits[i]] = count
+    return fruits_dict
 
 
 class TestCountFruits(unittest.TestCase):
