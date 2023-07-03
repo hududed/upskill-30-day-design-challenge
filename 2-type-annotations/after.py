@@ -1,4 +1,4 @@
-from typing import Iterable, Sized
+from typing import Callable, Iterable, Sized, TypeVar
 
 
 def filter_odd_numbers(numbers: Iterable[int]) -> list[int]:
@@ -25,19 +25,22 @@ def count(words: Iterable[Sized]) -> list[int]:
         result.append(len(word))
     return result
 
+T = TypeVar("T")
+U = TypeVar("U")
+FilterFunc = Callable[[T], T]
+ProcessFunc = Callable[[T], U]
 
 def process_data(
-    data,
-    filter_func=None,
-    process_func=None,
+    data: T,
+    filter_func: FilterFunc[T] | None = None,
+    process_func: ProcessFunc[T,U] | None = None,
 ):
     """Applies filter_func and process_func on a data sequence."""
-    if filter_func is None:
-        filter_func = lambda x: x
-    filtered_data = filter_func(data)
-    if process_func is None:
-        process_func = lambda x: x
-    return process_func(filtered_data)
+    if filter_func:
+        data = filter_func(data)
+    if process_func:
+        return process_func(data)
+    return data
 
 
 def main():
