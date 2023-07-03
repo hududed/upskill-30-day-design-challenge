@@ -1,4 +1,4 @@
-# upskill-kiss
+# DAY 1: KISS principle
 
 Challenge: Write a Python function called **`count_fruits`** that counts the frequency of each type of fruit in a given list of strings. Return a dictionary where the keys are fruit names and the values are their respective counts. The code should be simple and straightforward.
 
