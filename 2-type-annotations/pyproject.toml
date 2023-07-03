@@ -3,8 +3,6 @@ name = "type_annotations"
 version = "0.1.0"
 description = ""
 authors = ["Hud Wahab <hudwahab@gmail.com>"]
-readme = "README.md"
-packages = [{include = "upskill_kiss"}]
 
 [tool.poetry.dependencies]
 python = "^3.11.4"
