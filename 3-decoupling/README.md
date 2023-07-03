@@ -1,4 +1,4 @@
-Download the provided code for the challenge.
+Download the provided code for the challenge.  
 Challenge:
 
 1. Identify the current code structure and its limitations:
