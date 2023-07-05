@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from plugin_manager import (all_plugins, get_plugin, load_plugins_from_folder,
-                            plugin_exists)
+from plugin_manager import all_plugins, get_plugin, load_plugins_from_folder
 
 PLUGIN_FOLDER = "plugins"
 
