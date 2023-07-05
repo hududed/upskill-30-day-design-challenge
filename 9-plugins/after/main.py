@@ -1,43 +1,10 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import Callable
 
+from plugin_manager import (all_plugins, get_plugin, load_plugins_from_folder,
+                            plugin_exists)
 
-def process_payment_cc(total: Decimal) -> None:
-    card_number = input("Please enter your credit card number: ")
-    expiration_date = input("Please enter your credit card expiration date: ")
-    ccv = input("Please enter your credit card CCV: ")
-    card_number_masked = card_number[-4:].rjust(len(card_number), "*")
-    ccv_masked = len(ccv) * "*"
-    print(
-        f"Processing credit card payment of ${total:.2f} with card number {card_number_masked} and expiration date {expiration_date} and CCV {ccv_masked}..."
-    )
-
-
-def process_payment_paypal(total: Decimal) -> None:
-    username = input("Please enter your PayPal username: ")
-    password = input("Please enter your PayPal password: ")
-    password_masked = len(password) * "*"
-    print(
-        f"Processing PayPal payment of ${total:.2f} with username {username} and password {password_masked}..."
-    )
-
-
-def process_payment_apple_pay(total: Decimal) -> None:
-    device_id = input("Please enter your Apple Pay device ID: ")
-    device_id_masked = device_id[-4:].rjust(len(device_id), "*")
-    print(
-        f"Processing Apple Pay payment of ${total:.2f} with device ID {device_id_masked}..."
-    )
-
-
-PaymentHandlerFn = Callable[[Decimal], None]
-
-PAYMENT_HANDLERS: dict[str, PaymentHandlerFn] = {
-    "cc": process_payment_cc,
-    "paypal": process_payment_paypal,
-    "apple": process_payment_apple_pay,
-}
+PLUGIN_FOLDER = "plugins"
 
 
 @dataclass
@@ -128,17 +95,23 @@ class ShoppingCart:
 
 def handle_payment(total: Decimal) -> None:
     payment_type = input(
-        "What payment method would you like to use? (cc/paypal/apple) "
+        f"What payment method would you like to use? ({', '.join(all_plugins())})"
     )
 
-    if payment_type in PAYMENT_HANDLERS:
+    if payment_type in all_plugins():
         # Process the payment
-        PAYMENT_HANDLERS[payment_type](total)
+        payment_handler = get_plugin(payment_type)
+        payment_handler.process_payment(total)
     else:
         print(f"Payment type '{payment_type}' is not valid!")
 
 
 def main() -> None:
+
+    # Load plugins from the plugins folder
+    load_plugins_from_folder(PLUGIN_FOLDER)
+
+
     # Create a shopping cart and add some items to it
     cart = ShoppingCart(
         items=[
@@ -150,7 +123,7 @@ def main() -> None:
     cart.apply_discount("SAVE10")
 
     # Print the total
-    cart.print_cart()
+    cart.print_cart()   
 
     handle_payment(cart.total)
 
