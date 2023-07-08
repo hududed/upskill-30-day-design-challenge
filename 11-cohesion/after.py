@@ -34,7 +34,7 @@ def process_row(row: pd.DataFrame) -> pd.DataFrame:
 
         
 def main() -> None:
-    raw_data = pd.read_csv("data.csv")
+    raw_data = pd.read_csv("sensor_data.csv")
     processed_data = process_data(raw_data, "Temperature")
     print(processed_data)
 

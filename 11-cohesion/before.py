@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def main() -> None:
-    option = "All"  # choose between "All", "Temperature", "Humidity", "CO2"
+    option = "Temperature"  # choose between "All", "Temperature", "Humidity", "CO2"
 
     data = pd.read_csv("sensor_data.csv")
     assert option in (
