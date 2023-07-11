@@ -2,7 +2,7 @@ from typing import Any
 
 import requests
 
-API_KEY = "505086b9c9c6e5509af4b82a44ef2ad8"
+API_KEY = "01234"
 
 
 class CityNotFoundError(Exception):
