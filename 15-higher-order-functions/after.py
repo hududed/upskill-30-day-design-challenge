@@ -10,14 +10,14 @@ HttpGet = Callable[[str], Any]
 class CityNotFoundError(Exception):
     pass
 
-def get(url: str) -> dict[str, Any]:
+def get(url: str) -> Any:
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
 
-def get_forecast(client: HttpGet, api_key: str, city: str) -> dict[str, Any]:
+def get_forecast(http_get: HttpGet, api_key: str, city: str) -> dict[str, Any]:
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    response = client(url)
+    response = http_get(url)
     if "main" not in response:
         raise CityNotFoundError(
             f"Couldn't find weather data. Check '{city}' if it exists and is correctly spelled.\n"
@@ -45,7 +45,7 @@ def main() -> None:
     get_weather = lambda city: get_forecast(get, API_KEY, city)
 
     # or using partial
-    get_weather = partial(get_weather, get, API_KEY)
+    get_weather = partial(get_forecast, get, API_KEY)
 
     city = "Laramie"
     weather_forecast = get_weather(city)
