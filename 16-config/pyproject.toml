@@ -2,7 +2,7 @@
 name = "read_from_config_file"
 version = "0.1.0"
 description = ""
-authors = ["Hud Wahab <hduwahab@gmail.com>"]
+authors = ["Hud Wahab <hudwahab@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11.4"
