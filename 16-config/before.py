@@ -1,7 +1,7 @@
-from typing import Any, Callable
 from functools import partial
-import requests
+from typing import Any, Callable
 
+import requests
 
 API_KEY = "123456789"
 
@@ -48,7 +48,7 @@ def get_wind_direction(full_weather_forecast: dict[str, Any]) -> int:
 def main() -> None:
     get_weather = partial(get_forecast, get, API_KEY)
 
-    city = "Utrecht"
+    city = "Laramie"
 
     weather_forecast = get_weather(city)
 
