@@ -47,7 +47,7 @@ def fetch_conditions_from_args(
         return [Condition.TEMPERATURE]
     
 def main():
-    with open("texts_nl.json") as f:
+    with open("texts.json") as f:
         texts = json.load(f)
     
     parser = construct_parser(texts)
