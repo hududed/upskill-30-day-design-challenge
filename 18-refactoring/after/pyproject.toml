@@ -1,11 +1,12 @@
 [tool.poetry]
-name = "payment_strategy"
+name = "refactor_cli_code"
 version = "0.1.0"
 description = ""
 authors = ["Hud Wahab <hudwahab@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11.4"
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 
