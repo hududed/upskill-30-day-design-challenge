@@ -22,7 +22,7 @@ def get_db():
     database.close()
 
 # Create event
-@app.post("/events/", response_model=None)
+@app.post("/events", response_model=None)
 async def create_event(
     event: EventCreate, database: Session = Depends(get_db)
 ) -> Event:
