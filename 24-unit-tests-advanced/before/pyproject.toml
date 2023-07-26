@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "test_basic"
+name = "test_advanced"
 version = "0.1.0"
 description = ""
 authors = ["Hud Wahab <hudwahab@gmail.com>"]
