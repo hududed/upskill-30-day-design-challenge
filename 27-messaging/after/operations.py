@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Protocol
 
-
+from message import Message, MessageSystem, MessageType
 from models import Event, Ticket
 
 
@@ -61,11 +61,20 @@ class Database(Protocol):
         ...
 
 
-def create_event(event: EventCreate, database: Database) -> Event:
+def create_event(
+    event: EventCreate, database: Database, message_system: MessageSystem
+) -> Event:
     db_event = Event(**event.dict())
     database.add(db_event)
     database.commit()
     database.refresh(db_event)
+    message_system.post(
+        Message(
+            type=MessageType.EVENT_CREATED,
+            message="Event created",
+            data=db_event,
+        )
+    )
     return db_event
 
 

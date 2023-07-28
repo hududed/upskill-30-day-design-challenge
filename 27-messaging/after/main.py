@@ -1,10 +1,11 @@
+import operations
+import uvicorn
+from db import EventCreate, TicketCreate, TicketUpdate
 from fastapi import Depends, FastAPI, HTTPException
+from message import Message, MessageSystem, MessageType
 from models import Base, Event, Ticket
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
-from db import EventCreate, TicketCreate, TicketUpdate
-import operations
-import uvicorn
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./events.db"
 engine = create_engine(
@@ -15,6 +16,22 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+def handle_message_ticket_bought_email(message: Message):
+    ticket: Ticket = message.data # type: ignore
+    customer_name = ticket.customer_name
+    email = ticket.customer_email
+    print(f"Ticket bought for event {ticket.event_id} by {customer_name} ({email})")
+    print(message)
+
+def handle_message_ticket_bought_sms(message: Message):
+    ticket: Ticket = message.data # type: ignore
+    print(f"Your ticket has been reserved under id {ticket.id}")
+    print(message)
+
+def handle_message_event_created_email(message: Message):
+    event: Event = message.data # type: ignore
+    print(f"Event {event.title} created")
+    print(message)
 
 # Initialize database session
 def get_db():
@@ -22,11 +39,22 @@ def get_db():
     yield database
     database.close()
 
+def get_message_system() -> MessageSystem:
+    message_system = MessageSystem()
+    message_system.attach(MessageType.TICKET_BOOKED, handle_message_ticket_bought_email)
+    message_system.attach(MessageType.TICKET_BOOKED, handle_message_ticket_bought_sms)
+    message_system.attach(MessageType.EVENT_CREATED, handle_message_event_created_email)
+    return message_system
+
 
 # Create event
 @app.post("/events")
-async def create_event(event: EventCreate, database: Session = Depends(get_db)):
-    return operations.create_event(event, database)
+async def create_event(
+    event: EventCreate,
+    database: Session = Depends(get_db),
+    message_system: MessageSystem = Depends(get_message_system)
+) -> Event:
+    return operations.create_event(event, database, message_system)
 
 
 # Delete event
@@ -58,7 +86,9 @@ async def get_all_events(database: Session = Depends(get_db)):
 
 # Book ticket
 @app.post("/tickets")
-async def book_ticket(ticket: TicketCreate, database: Session = Depends(get_db)):
+async def book_ticket(
+    ticket: TicketCreate,
+    database: Session = Depends(get_db)):
     try:
         return operations.book_ticket(ticket, database)
     except operations.NoAvailableTickets as exc:
